@@ -59,9 +59,9 @@ export default function App () {
              
                 <ul>
                   {movieList.map(movie => (
-                    <li key={movie.id}>
+                    <section key={movie.id}>
                       <Link to={`/filmler/${movie.id}`}>{movie.title}</Link>
-                    </li>
+                    </section>
                   ))}
                 </ul>
             
