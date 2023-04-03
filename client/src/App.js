@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import KaydedilenlerListesi from './Filmler/KaydedilenlerListesi';
 
 import Film from './Filmler/Film';
+import FilmListesi from './Filmler/FilmListesi';
 
 export default function App () {
   const [saved, setSaved] = useState([]); // Stretch: the ids of "saved" movies
@@ -26,41 +27,35 @@ export default function App () {
     FilmleriAl();
   }, []);
 
-  const KaydedilenlerListesineEkle = id => {
+  const KaydedilenlerListesineEkle = (id) => {
     // Burası esnek. Aynı filmin birden fazla kez "saved" e eklenmesini engelleyin
+    let isSaved = saved.find((f) => f.id == id);
+    if (!isSaved) {
+      let savedMovie = movieList.find((f) => f.id == id);
+      let newSaved = [...saved, savedMovie];
+      setSaved(newSaved);
+    }
   };
+
 
   return (
     <BrowserRouter>
       <div className="App">
         <KaydedilenlerListesi list={[ /* Burası esnek */]} />
 
-       
+   
 
         <div className="content">
+        
           <main>
-            <Switch>
-              <Route  path="/" >
-                <ul>
-                  {movieList.map(movie => (
-                    <li key={movie.id}>
-                    <h1><strong> </strong>{movie.title}</h1>
-                      <p><strong>Director:</strong>{movie.director}</p>
-                      <p><strong>Metascore:</strong>{movie.metascore}</p>
-                    
-                    </li>
-                    
-                  ))}
-                </ul>
-              </Route>
-            </Switch>
+         
             <Switch>
               <Route path="/filmler/:id" component={Film} />
              
                 <ul>
                   {movieList.map(movie => (
                     <section key={movie.id}>
-                      <Link to={`/filmler/${movie.id}`}>{movie.title}</Link>
+                      <Link to={`/filmler/${movie.id}`}> <FilmListesi movies={movieList} /></Link>
                     </section>
                   ))}
                 </ul>
