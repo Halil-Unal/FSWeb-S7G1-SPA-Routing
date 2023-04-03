@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route} from "react-router-dom";
 import KaydedilenlerListesi from './Filmler/KaydedilenlerListesi';
 
 import Film from './Filmler/Film';
@@ -27,43 +27,28 @@ export default function App () {
     FilmleriAl();
   }, []);
 
-  const KaydedilenlerListesineEkle = (id) => {
-    // Burası esnek. Aynı filmin birden fazla kez "saved" e eklenmesini engelleyin
-    let isSaved = saved.find((f) => f.id == id);
-    if (!isSaved) {
-      let savedMovie = movieList.find((f) => f.id == id);
-      let newSaved = [...saved, savedMovie];
-      setSaved(newSaved);
-    }
-  };
+
 
 
   return (
-    <BrowserRouter>
+    
       <div className="App">
         <KaydedilenlerListesi list={[ /* Burası esnek */]} />
 
-   
-
-        <div className="content">
         
-          <main>
+       
          
             <Switch>
-              <Route path="/filmler/:id" component={Film} />
-             
-                <ul>
-                  {movieList.map(movie => (
-                    <section key={movie.id}>
-                      <Link to={`/filmler/${movie.id}`}> <FilmListesi movies={movieList} /></Link>
-                    </section>
-                  ))}
-                </ul>
-            
+              <Route path="/movies/:id" >
+             <Film />
+             </Route>
+             <Route path="/" >
+             <FilmListesi movies={movieList} />
+             </Route>
+               
             </Switch>
-          </main>
-        </div>
+        
       </div>
-    </BrowserRouter>
+   
   );
 }
